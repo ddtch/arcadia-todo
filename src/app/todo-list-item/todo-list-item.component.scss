@@ -1,0 +1,9 @@
+.todo-items{
+  ul{
+    li span{
+      &.done{
+        text-decoration: line-through;
+      }
+    }
+  }
+}

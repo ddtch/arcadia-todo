@@ -1,0 +1,35 @@
+<div class="todo-items">
+  <form [formGroup]="todoFiltersForm">
+    <input type="text" placeholder="Search"
+           formControlName="searchQuery"/>
+
+    <div class="radio-group">
+      <label>
+        <input type="radio"
+               value="1"
+               formControlName="doneStatus" [checked]="true">
+        All
+      </label>
+
+      <label>
+        <input type="radio"
+               value="0"
+               formControlName="doneStatus">
+        Undone
+      </label>
+    </div>
+  </form>
+
+  <ul>
+    <li *ngFor="let item of filteredTodoItems | async;"
+        (click)="toggleDone(item.id)">
+      <span [class.done]="item.done">{{item.title}}</span>
+      <input type="checkbox" [checked]="item.done"
+             alt="Done?">
+    </li>
+  </ul>
+
+  <input type="text" #newTodoItem
+         placeholder="What to do?"
+    (keyup.enter)="addTodoItem(newTodoItem.value); newTodoItem.value = '';">
+</div>

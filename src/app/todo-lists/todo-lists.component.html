@@ -1,0 +1,17 @@
+<div class="todo-lists">
+  <ul>
+    <li *ngFor="let todoItem of todoLists | async">
+      <a [routerLink]="[todoItem.id]">{{todoItem.title}}</a>
+      {{getUndoneCount(todoItem)}}/{{todoItem.todos.length}}
+    </li>
+  </ul>
+
+
+  <form [formGroup]="todoListsForm" (submit)="addNewList($event)">
+    <input formControlName="listTitle" type="text"
+           placeholder="New list name"/>
+    <button type="submit">create</button>
+  </form>
+
+  <router-outlet></router-outlet>
+</div>

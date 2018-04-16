@@ -1,0 +1,13 @@
+.todo-lists{
+  display: flex;
+  flex-flow: column nowrap;
+
+  form{
+    display: flex;
+    flex-flow: column nowrap;
+
+    input{
+      margin-bottom: 10px;
+    }
+  }
+}

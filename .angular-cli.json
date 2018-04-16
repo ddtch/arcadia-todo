@@ -54,6 +54,7 @@
     }
   },
   "defaults": {
+    "changeDetection": "OnPush",
     "styleExt": "scss",
     "component": {}
   }
