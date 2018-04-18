@@ -26,9 +26,7 @@ export class TodosService {
   }
 
   public createTodoItem(todoListId: number, todoItem: TodoItem) {
-    const needTodos = this.todoLists.find(list => {
-      return list.id === todoListId;
-    });
+    const needTodos = this.getTodoListById(todoListId);
 
     needTodos.todos.push(todoItem);
   }
@@ -43,8 +41,8 @@ export class TodosService {
   }
 
   public getTodoItem(todoListId: number, todoItemId: number) {
-    const needTodos = this.todoLists.find(list => list.id === todoListId).todos;
-    return needTodos.find(item => item.id === todoItemId);
+    const needTodos = this.getTodoListById(todoListId);
+    return needTodos.todos.find(item => item.id === todoItemId);
   }
 
   public todoListExist(todoListId: number) {
