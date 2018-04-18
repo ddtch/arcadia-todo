@@ -82,7 +82,8 @@ export class TodoListItemComponent implements OnInit, OnDestroy {
       this.todoListId,
       newTodoItem
     );
-    // this.todoFiltersForm.controls.searchQuery.setValue('');
+
+    this.todoFiltersForm.controls.searchQuery.setValue('');
   }
 
   public initForm() {
