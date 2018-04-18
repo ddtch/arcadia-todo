@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TodoItem} from '../models/todoItem';
 import {TodosService} from '../services/todos/todos.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {map, withLatestFrom, startWith} from 'rxjs/operators';
@@ -24,6 +24,7 @@ export class TodoListItemComponent implements OnInit, OnDestroy {
 
   constructor(private todosService: TodosService,
               private route: ActivatedRoute,
+              private router: Router,
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -32,6 +33,12 @@ export class TodoListItemComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.route.params.subscribe(params => {
       this.todoListId = +params.id;
       this.querySubject = new Subject<string>();
+
+      if (!this.todosService.todoListExist(this.todoListId)) {
+        alert('Todolist not exist!');
+        this.router.navigateByUrl('/lists');
+      }
+
       this.todoItems = this.todosService.getTodoItems(this.todoListId);
 
       this.filteredTodoItems = this.todoFiltersForm.valueChanges.pipe(
@@ -44,12 +51,14 @@ export class TodoListItemComponent implements OnInit, OnDestroy {
           if (!filters.searchQuery && !!+filters.doneStatus) {
             return items;
           }
+
           return items.filter(item => !!+filters.doneStatus ?
             item.title.includes(filters.searchQuery) :
             item.title.includes(filters.searchQuery) && item.done === !!+filters.doneStatus
           );
         })
       );
+
     });
   }
 
@@ -73,6 +82,7 @@ export class TodoListItemComponent implements OnInit, OnDestroy {
       this.todoListId,
       newTodoItem
     );
+    // this.todoFiltersForm.controls.searchQuery.setValue('');
   }
 
   public initForm() {

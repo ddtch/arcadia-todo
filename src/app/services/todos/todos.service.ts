@@ -11,13 +11,26 @@ export class TodosService {
 
   constructor() {}
 
-  public createTodoList(todoList: TodoList) {
-    this.todoLists.push(todoList);
+  private getTodoListById(todoListId: number): TodoList {
+    return this.todoLists.find(list => list.id === todoListId);
+  }
+
+  public createTodoList(todoListTitle: string) {
+    const newListItem: TodoList = {
+      id: Math.random(),
+      title: todoListTitle,
+      todos: []
+    };
+
+    this.todoLists.push(newListItem);
   }
 
   public createTodoItem(todoListId: number, todoItem: TodoItem) {
-    const needTodos = this.todoLists.find(list => list.id === todoListId).todos;
-    needTodos.push(todoItem);
+    const needTodos = this.todoLists.find(list => {
+      return list.id === todoListId;
+    });
+
+    needTodos.todos.push(todoItem);
   }
 
   public getTodoLists() {
@@ -25,14 +38,17 @@ export class TodosService {
   }
 
   public getTodoItems(todoListId: number) {
-    return Observable.of(
-      this.todoLists.find(list => list.id === todoListId).todos
-    );
+    const todoList = this.getTodoListById(todoListId);
+    return Observable.of(todoList && todoList.todos || []);
   }
 
   public getTodoItem(todoListId: number, todoItemId: number) {
     const needTodos = this.todoLists.find(list => list.id === todoListId).todos;
     return needTodos.find(item => item.id === todoItemId);
+  }
+
+  public todoListExist(todoListId: number) {
+    return !!this.getTodoListById(todoListId);
   }
 
 }

@@ -20,16 +20,24 @@
     </div>
   </form>
 
+  <div *ngIf="!(filteredTodoItems | async).length" class="placeholder">
+    No any todo items yet. Try to add new using form below.
+  </div>
   <ul>
-    <li *ngFor="let item of filteredTodoItems | async;"
+    <li *ngFor="let item of filteredTodoItems | async"
         (click)="toggleDone(item.id)">
-      <span [class.done]="item.done">{{item.title}}</span>
-      <input type="checkbox" [checked]="item.done"
-             alt="Done?">
+
+        <span [class.done]="item.done">
+          {{item.title}}
+        </span>
+
+        <input type="checkbox" [checked]="item.done"
+               alt="Done?" id="todoItem-{{item.id}}">
+        <span class="checkmark"></span>
     </li>
   </ul>
 
   <input type="text" #newTodoItem
          placeholder="What to do?"
-    (keyup.enter)="addTodoItem(newTodoItem.value); newTodoItem.value = '';">
+         (keyup.enter)="addTodoItem(newTodoItem.value); newTodoItem.value = '';">
 </div>

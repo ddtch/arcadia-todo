@@ -1,17 +1,27 @@
+<h4>Todo items card</h4>
 <div class="todo-lists">
-  <ul>
-    <li *ngFor="let todoItem of todoLists | async">
-      <a [routerLink]="[todoItem.id]">{{todoItem.title}}</a>
-      {{getUndoneCount(todoItem)}}/{{todoItem.todos.length}}
-    </li>
-  </ul>
+  <div class="part part-lists">
+    <div *ngIf="!(todoLists | async).length" class="placeholder">
+      No any todo lists. Try to add some using form below.
+    </div>
+    <ul>
+      <li *ngFor="let todoItem of todoLists | async">
+        <a [routerLink]="[todoItem.id]" routerLinkActive="activated">
+          {{todoItem.title}}
+        </a>
+        ({{getUndoneCount(todoItem)}}/{{todoItem.todos.length}})
+      </li>
+    </ul>
 
 
-  <form [formGroup]="todoListsForm" (submit)="addNewList($event)">
-    <input formControlName="listTitle" type="text"
-           placeholder="New list name"/>
-    <button type="submit">create</button>
-  </form>
+    <form [formGroup]="todoListsForm" (submit)="addNewList($event)">
+      <input formControlName="listTitle" type="text"
+             placeholder="New list name"/>
+      <button type="submit">create</button>
+    </form>
+  </div>
 
-  <router-outlet></router-outlet>
+  <div class="part part-items">
+    <router-outlet></router-outlet>
+  </div>
 </div>

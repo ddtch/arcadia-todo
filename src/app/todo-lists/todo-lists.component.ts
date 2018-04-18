@@ -38,13 +38,7 @@ export class TodoListsComponent implements OnInit {
 
     const controls = this.todoListsForm.controls;
 
-    const newListItem: TodoList = {
-      id: Math.random(),
-      title: controls.listTitle.value,
-      todos: []
-    };
-
-    this.todosService.createTodoList(newListItem);
+    this.todosService.createTodoList(controls.listTitle.value);
     controls.listTitle.setValue('');
   }
 
